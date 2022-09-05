@@ -28,4 +28,15 @@ class ArticleControllerTest extends TestCase
 
         $response->assertRedirect(route('login'));
     }
+
+    /**
+     * @test
+     */
+    public function 認証済みユーザーが投稿画面にアクセスできるかどうか()
+    {
+        $user = factory(User::class)->create();
+        $response = $this->actingAs($user)->get(route('articles.create'));
+        $response->assertStatus(200)
+                 ->assertViewIs('articles.create');
+    }
 }
