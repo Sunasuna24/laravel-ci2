@@ -35,4 +35,19 @@ class ArticleTest extends TestCase
 
         $this->assertTrue($result);
     }
+
+    /**
+     * @test
+     */
+    public function ユーザーが記事をいいねしていないときにfalseが返る()
+    {
+        $article = factory(Article::class)->create();
+        $user = factory(User::class)->create();
+        $another_user = factory(User::class)->create();
+        $article->likes()->attach($user);
+
+        $result = $article->isLikedBy($another_user);
+
+        $this->assertFalse($result);
+    }
 }
